@@ -5,8 +5,8 @@ import { FEATURES, parseManifest, TOOLCHAINS } from '../lib/manifest.js';
 import { init, sync } from '../lib/sync.js';
 
 const USAGE = `Usage:
-  tchryssos-config init --toolchain <${TOOLCHAINS.join('|')}> [--features a,b]
-  tchryssos-config sync [--check]
+  js-config init --toolchain <${TOOLCHAINS.join('|')}> [--features a,b]
+  js-config sync [--check]
 
 Features: ${FEATURES.join(', ')}
 

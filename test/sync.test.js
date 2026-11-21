@@ -10,7 +10,7 @@ import { compareRanges, init, sync } from '../lib/sync.js';
 
 /** @param {Record<string, string>} files */
 function repo(files) {
-  const dir = mkdtempSync(join(tmpdir(), 'tchryssos-config-'));
+  const dir = mkdtempSync(join(tmpdir(), 'js-config-'));
   for (const [name, content] of Object.entries(files)) {
     writeFileSync(join(dir, name), content);
   }
@@ -30,8 +30,8 @@ describe('init + sync', () => {
     assert.deepEqual(sync(dir, { dryRun: true }).changed, []);
     assert.match(read(dir, 'eslint.config.js'), /astro: true/);
     assert.deepEqual(parse(read(dir, 'lefthook.yml')).extends, [
-      'node_modules/@tchryssos/config/lefthook/eslint-prettier.yml',
-      'node_modules/@tchryssos/config/lefthook/check.yml',
+      'node_modules/@tchryssos/js-config/lefthook/eslint-prettier.yml',
+      'node_modules/@tchryssos/js-config/lefthook/check.yml',
     ]);
     const pkg = readJson(dir, 'package.json');
     assert.equal(pkg.scripts.knip, 'knip');
@@ -69,11 +69,11 @@ describe('init + sync', () => {
         name: 't',
         scripts: { lint: 'eslint . && custom' },
         devDependencies: { typescript: '^7.0.2' },
-        'tchryssos-config': { toolchain: 'ox', features: ['stylelint'] },
+        'js-config': { toolchain: 'ox', features: ['stylelint'] },
       }),
       'pnpm-workspace.yaml': 'allowBuilds:\n  # needed\n  sharp: true\n',
       'lefthook.yml':
-        'extends:\n  - node_modules/@tchryssos/config/lefthook/eslint-prettier.yml\n  - local.yml\npre-commit:\n  jobs:\n    - name: mine\n      run: echo\n',
+        'extends:\n  - node_modules/@tchryssos/js-config/lefthook/eslint-prettier.yml\n  - local.yml\npre-commit:\n  jobs:\n    - name: mine\n      run: echo\n',
       '.gitignore': 'secret/\n',
       '.oxfmtrc.json': '{ "ignorePatterns": ["captures/"], "printWidth": 120 }',
     });
@@ -89,16 +89,16 @@ describe('init + sync', () => {
 
     const lefthook = parse(read(dir, 'lefthook.yml'));
     assert.deepEqual(lefthook.extends, [
-      'node_modules/@tchryssos/config/lefthook/ox.yml',
-      'node_modules/@tchryssos/config/lefthook/stylelint.yml',
-      'node_modules/@tchryssos/config/lefthook/check.yml',
+      'node_modules/@tchryssos/js-config/lefthook/ox.yml',
+      'node_modules/@tchryssos/js-config/lefthook/stylelint.yml',
+      'node_modules/@tchryssos/js-config/lefthook/check.yml',
       'local.yml',
     ]);
     assert.equal(lefthook['pre-commit'].jobs[0].name, 'mine');
 
     assert.match(
       read(dir, '.gitignore'),
-      /^secret\/\n\n# >>> @tchryssos\/config/,
+      /^secret\/\n\n# >>> @tchryssos\/js-config/,
     );
     assert.deepEqual(readJson(dir, '.oxfmtrc.json').ignorePatterns, [
       'captures/',
@@ -130,12 +130,15 @@ describe('init + sync', () => {
       read(dir, '.gitignore') + 'after/\n',
     );
     const pkg = readJson(dir, 'package.json');
-    pkg['tchryssos-config'].features = ['astro'];
+    pkg['js-config'].features = ['astro'];
     writeFileSync(join(dir, 'package.json'), JSON.stringify(pkg));
     sync(dir);
 
     const gitignore = read(dir, '.gitignore');
-    assert.match(gitignore, /\.astro\/\n# <<< @tchryssos\/config\nafter\/\n$/);
+    assert.match(
+      gitignore,
+      /\.astro\/\n# <<< @tchryssos\/js-config\nafter\/\n$/,
+    );
     assert.equal(gitignore.match(/# >>>/g)?.length, 1);
   });
 });

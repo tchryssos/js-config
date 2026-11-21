@@ -1,11 +1,11 @@
-# @tchryssos/config
+# js-config
 
 Shared tooling config for my JS/TS repos, plus a small CLI for the files
 that can't be extended.
 
 - **Extended from the package** (each repo keeps a one-line file):
   tsconfig, ESLint, Prettier, stylelint, oxlint, lefthook.
-- **Written by `tchryssos-config sync`**: `.editorconfig`, `.nvmrc`, a
+- **Written by `js-config sync`**: `.editorconfig`, `.nvmrc`, a
   managed block in `.gitignore`, `.vscode/` settings, the supply-chain
   settings in `pnpm-workspace.yaml`, `.oxfmtrc.json` style keys, the CI setup
   action, and minimum tool versions in `package.json`.
@@ -15,19 +15,19 @@ that can't be extended.
 ## Install
 
 ```sh
-pnpm add -D github:tchryssos/config#v0.1.0
-pnpm exec tchryssos-config init --toolchain eslint-prettier --features astro,stylelint,knip,ci
+pnpm add -D github:tchryssos/js-config#v0.2.0
+pnpm exec js-config init --toolchain eslint-prettier --features astro,stylelint,knip,ci
 pnpm install
 ```
 
 `init` records the choices in `package.json`:
 
 ```json
-"tchryssos-config": { "toolchain": "eslint-prettier", "features": ["astro", "stylelint", "knip", "ci"] }
+"js-config": { "toolchain": "eslint-prettier", "features": ["astro", "stylelint", "knip", "ci"] }
 ```
 
 and writes starting config files that don't exist yet. To change features
-later, edit that list and run `pnpm exec tchryssos-config sync`.
+later, edit that list and run `pnpm exec js-config sync`.
 
 | Toolchain         | Lint / format    |
 | ----------------- | ---------------- |
@@ -52,7 +52,7 @@ push), the pnpm supply-chain settings, `.editorconfig`, `.nvmrc`.
 
 ```js
 // eslint.config.js
-import { base } from '@tchryssos/config/eslint';
+import { base } from '@tchryssos/js-config/eslint';
 import { defineConfig } from 'eslint/config';
 
 export default defineConfig([
@@ -65,26 +65,26 @@ export default defineConfig([
 `ignores`, and `nodeFiles` (globs that run in Node instead of the browser).
 
 ```js
-// .prettierrc.mjs: '@tchryssos/config/prettier' or '.../prettier/astro'
-export { default } from '@tchryssos/config/prettier/astro';
+// .prettierrc.mjs: '@tchryssos/js-config/prettier' or '.../prettier/astro'
+export { default } from '@tchryssos/js-config/prettier/astro';
 
 // With Tailwind (its plugin must come last):
-import config from '@tchryssos/config/prettier/astro';
-import { withTailwind } from '@tchryssos/config/prettier/tailwind';
+import config from '@tchryssos/js-config/prettier/astro';
+import { withTailwind } from '@tchryssos/js-config/prettier/tailwind';
 export default withTailwind(config, { tailwindStylesheet: './src/styles/global.css' });
 ```
 
 ```jsonc
 // tsconfig.json — Node:
-{ "extends": "@tchryssos/config/tsconfig/node.json" }
+{ "extends": "@tchryssos/js-config/tsconfig/node.json" }
 // Astro:
-{ "extends": ["astro/tsconfigs/strict", "@tchryssos/config/tsconfig/base.json"] }
+{ "extends": ["astro/tsconfigs/strict", "@tchryssos/js-config/tsconfig/base.json"] }
 
 // .stylelintrc.json
-{ "extends": "@tchryssos/config/stylelint" }
+{ "extends": "@tchryssos/js-config/stylelint" }
 
 // .oxlintrc.json
-{ "extends": ["./node_modules/@tchryssos/config/oxlint/base.json"] }
+{ "extends": ["./node_modules/@tchryssos/js-config/oxlint/base.json"] }
 ```
 
 `lefthook.yml` lists the shared hook files under `extends`; `sync` keeps that
@@ -96,7 +96,7 @@ merge with the shared ones by name.
 1. Change the package (often by backporting something tried in one repo).
 2. Bump `version`, tag `vX.Y.Z`, push the tag.
 3. In each repo, bump the `#vX.Y.Z` in `package.json` (Renovate does this),
-   `pnpm install`, then `pnpm exec tchryssos-config sync`.
+   `pnpm install`, then `pnpm exec js-config sync`.
 
 `sync --check` exits 1 when a repo's managed files are out of date.
 

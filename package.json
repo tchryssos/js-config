@@ -1,16 +1,16 @@
 {
-  "name": "@tchryssos/config",
-  "version": "0.1.0",
+  "name": "@tchryssos/js-config",
+  "version": "0.2.0",
   "description": "Shared JS tooling config (TypeScript, ESLint + Prettier or oxlint + oxfmt, stylelint, lefthook) and a CLI that keeps the files that can't be extended in sync.",
   "private": true,
   "type": "module",
-  "repository": "github:tchryssos/config",
+  "repository": "github:tchryssos/js-config",
   "packageManager": "pnpm@12.20.0",
   "engines": {
     "node": ">=26"
   },
   "bin": {
-    "tchryssos-config": "bin/config.js"
+    "js-config": "bin/js-config.js"
   },
   "exports": {
     "./tsconfig/*": "./tsconfig/*",
