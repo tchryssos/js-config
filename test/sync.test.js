@@ -36,6 +36,7 @@ describe('init + sync', () => {
     const pkg = readJson(dir, 'package.json');
     assert.equal(pkg.scripts.knip, 'knip');
     assert.ok(pkg.devDependencies.eslint);
+    assert.ok(pkg.devDependencies['eslint-plugin-jsx-a11y']);
     assert.equal(pkg.devDependencies.oxlint, undefined);
   });
 
@@ -60,7 +61,9 @@ describe('init + sync', () => {
     const oxfmt = readJson(dir, '.oxfmtrc.json');
     assert.equal(oxfmt.printWidth, 80);
     assert.equal(oxfmt.trailingComma, 'all');
-    assert.equal(readJson(dir, 'package.json').scripts.format, 'oxfmt');
+    const pkg = readJson(dir, 'package.json');
+    assert.equal(pkg.scripts.format, 'oxfmt');
+    assert.equal(pkg.devDependencies['eslint-plugin-jsx-a11y'], undefined);
   });
 
   it('keeps what the repo added itself', () => {
