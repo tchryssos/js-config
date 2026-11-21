@@ -110,11 +110,8 @@ describe('init + sync', () => {
     const dir = repo({ 'package.json': '{ "name": "t" }' });
     init(dir, { toolchain: 'eslint-prettier', features: ['stylelint'] });
     // Roughly what Prettier does to these files.
-    const settings = read(dir, '.vscode/settings.json');
-    writeFileSync(
-      join(dir, '.vscode/settings.json'),
-      settings.replace(/\[\n\s+"css"\n\s+\]/, '["css"]'),
-    );
+    const manifest = readJson(dir, 'package.json');
+    writeFileSync(join(dir, 'package.json'), JSON.stringify(manifest));
     writeFileSync(
       join(dir, 'pnpm-workspace.yaml'),
       read(dir, 'pnpm-workspace.yaml').replaceAll("'", '"'),

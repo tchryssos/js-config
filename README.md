@@ -6,16 +6,16 @@ that can't be extended.
 - **Extended from the package** (each repo keeps a one-line file):
   tsconfig, ESLint, Prettier, stylelint, oxlint, lefthook.
 - **Written by `js-config sync`**: `.editorconfig`, `.nvmrc`, a
-  managed block in `.gitignore`, `.vscode/` settings, the supply-chain
+  managed block in `.gitignore`, the supply-chain
   settings in `pnpm-workspace.yaml`, `.oxfmtrc.json` style keys, the CI setup
   action, and minimum tool versions in `package.json`.
-- **Left to each repo**: `astro.config`, test runner config, deploy
-  workflows, project-specific lint rules, knip entry points.
+- **Left to each repo**: editor settings, `astro.config`, test runner config,
+  deploy workflows, project-specific lint rules, knip entry points.
 
 ## Install
 
 ```sh
-pnpm add -D github:tchryssos/js-config#v0.2.0
+pnpm add -D github:tchryssos/js-config#v0.3.0
 pnpm exec js-config init --toolchain eslint-prettier --features astro,stylelint,knip,ci
 pnpm install
 ```
@@ -40,7 +40,7 @@ everywhere), so switching doesn't reformat a repo.
 | Feature     | Adds                                                     |
 | ----------- | -------------------------------------------------------- |
 | `astro`     | Astro ESLint + Prettier rules, `.astro/` ignore, esbuild |
-| `tailwind`  | Tailwind class sorting (Prettier), VS Code settings      |
+| `tailwind`  | Tailwind class sorting (Prettier)                        |
 | `stylelint` | stylelint config, pre-commit job, `lint` script          |
 | `knip`      | knip + `knip` script                                     |
 | `ci`        | `.github/actions/setup` (pnpm + Node + install)          |
