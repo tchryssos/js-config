@@ -93,10 +93,21 @@ merge with the shared ones by name.
 
 ## Updating
 
-1. Change the package (often by backporting something tried in one repo).
-2. Bump `version`, tag `vX.Y.Z`, push the tag.
-3. In each repo, bump the `#vX.Y.Z` in `package.json` (Renovate does this),
-   `pnpm install`, then `pnpm exec js-config sync`.
+Releases are automatic. On every push to `main`,
+[`scripts/release.sh`](scripts/release.sh) tags one:
+
+- If `version` in `package.json` is ahead of the last tag, it tags that
+  version. Bump it by hand for minor or major changes.
+- Otherwise, if anything the package ships has changed since the last tag
+  (e.g. a merged Dependabot PR), it bumps the patch version and tags it.
+- Changes to tests, CI or docs alone don't make a release.
+
+Dependabot opens weekly PRs for this package's dependencies; CI tests them,
+including loading every shared config.
+
+To pick up a release in a repo, bump the `#vX.Y.Z` in its `package.json`
+(the [tags](https://github.com/tchryssos/js-config/tags) list the latest),
+`pnpm install`, then `pnpm exec js-config sync`.
 
 `sync --check` exits 1 when a repo's managed files are out of date.
 

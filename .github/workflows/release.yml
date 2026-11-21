@@ -1,0 +1,27 @@
+name: Release
+
+on:
+  push:
+    branches: [main]
+
+# One release at a time, never cancelled midway.
+concurrency:
+  group: release
+  cancel-in-progress: false
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    # Pushes the release commit and tag. The script only uses git and node's
+    # standard library: nothing here installs or runs dependency code.
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+      - name: Tag a release if main has unreleased changes
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          scripts/release.sh
