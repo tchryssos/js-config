@@ -1,0 +1,22 @@
+name: CI
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      # The same setup action `js-config sync` gives repos.
+      - uses: ./files/setup
+      - name: Check formatting
+        run: pnpm format:check
+      - name: Test
+        run: pnpm test
