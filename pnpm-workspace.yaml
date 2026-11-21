@@ -1,0 +1,13 @@
+# Don't install package versions younger than 3 days (in minutes), so
+# a compromised release has time to be noticed before we pick it up.
+minimumReleaseAge: 4320
+minimumReleaseAgeStrict: true
+minimumReleaseAgeIgnoreMissingTime: false
+# Fail installs on the wrong Node instead of warning (package.json engines).
+engineStrict: true
+allowBuilds:
+  lefthook: false
+peerDependencyRules:
+  allowedVersions:
+    eslint-plugin-jsx-a11y>eslint: '10'
+    stylelint-config-idiomatic-order>stylelint-order>stylelint: '18'

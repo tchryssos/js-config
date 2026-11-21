@@ -1,0 +1,12 @@
+# Formats and lints staged files and re-stages the fixes, so commits are
+# always formatted. Whole-project checks live in check.yml (pre-push).
+pre-commit:
+  jobs:
+    - name: format
+      run: node_modules/.bin/oxfmt --no-error-on-unmatched-pattern {staged_files}
+      stage_fixed: true
+
+    - name: lint
+      glob: '*.{js,mjs,cjs,ts,mts,cts}'
+      run: node_modules/.bin/oxlint --fix --deny-warnings {staged_files}
+      stage_fixed: true

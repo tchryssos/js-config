@@ -1,0 +1,6 @@
+# Types, tests, and anything else under `pnpm check` are too slow for every
+# commit; run them before code leaves the machine.
+pre-push:
+  jobs:
+    - name: check
+      run: pnpm check

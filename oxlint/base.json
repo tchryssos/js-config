@@ -1,0 +1,11 @@
+{
+  "plugins": ["typescript", "unicorn", "oxc", "import", "node", "promise"],
+  "categories": {
+    "correctness": "error",
+    "suspicious": "warn"
+  },
+  "env": {
+    "builtin": true
+  },
+  "ignorePatterns": ["dist/"]
+}

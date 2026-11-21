@@ -1,0 +1,6 @@
+pre-commit:
+  jobs:
+    - name: stylelint
+      glob: '*.css'
+      run: node_modules/.bin/stylelint --fix --max-warnings 0 {staged_files}
+      stage_fixed: true
