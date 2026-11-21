@@ -66,6 +66,8 @@ describe('init + sync', () => {
     const steps = parse(read(astroRepo, '.github/actions/setup/action.yml'))
       .runs.steps;
     assert.equal(steps.at(-1).run, 'pnpm exec astro sync');
+    const dependabot = parse(read(astroRepo, '.github/dependabot.yml'));
+    assert.equal(dependabot.updates[0].cooldown['default-days'], 3);
 
     const plainRepo = repo({ 'package.json': '{ "name": "t" }' });
     init(plainRepo, { toolchain: 'ox', features: ['ci'] });

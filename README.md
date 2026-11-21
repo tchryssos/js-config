@@ -8,14 +8,14 @@ that can't be extended.
 - **Written by `js-config sync`**: `.editorconfig`, `.nvmrc`, a
   managed block in `.gitignore`, the supply-chain
   settings in `pnpm-workspace.yaml`, `.oxfmtrc.json` style keys, the CI setup
-  action, and minimum tool versions in `package.json`.
+  action and Dependabot config, and minimum tool versions in `package.json`.
 - **Left to each repo**: editor settings, `astro.config`, test runner config,
   deploy workflows, project-specific lint rules, knip entry points.
 
 ## Install
 
 ```sh
-pnpm add -D github:tchryssos/js-config#v0.3.3
+pnpm add -D github:tchryssos/js-config#v0.4.0
 pnpm exec js-config init --toolchain eslint-prettier --features astro,stylelint,knip,ci
 pnpm install
 ```
@@ -37,13 +37,13 @@ later, edit that list and run `pnpm exec js-config sync`.
 Both use the same code style (80 columns, single quotes, trailing commas
 everywhere), so switching doesn't reformat a repo.
 
-| Feature     | Adds                                                                            |
-| ----------- | ------------------------------------------------------------------------------- |
-| `astro`     | Astro ESLint + Prettier rules, `.astro/` ignore, esbuild                        |
-| `tailwind`  | Tailwind class sorting (Prettier)                                               |
-| `stylelint` | stylelint config, pre-commit job, `lint` script                                 |
-| `knip`      | knip + `knip` script                                                            |
-| `ci`        | `.github/actions/setup` (pnpm + Node + install, plus `astro sync` with `astro`) |
+| Feature     | Adds                                                                                                         |
+| ----------- | ------------------------------------------------------------------------------------------------------------ |
+| `astro`     | Astro ESLint + Prettier rules, `.astro/` ignore, esbuild                                                     |
+| `tailwind`  | Tailwind class sorting (Prettier)                                                                            |
+| `stylelint` | stylelint config, pre-commit job, `lint` script                                                              |
+| `knip`      | knip + `knip` script                                                                                         |
+| `ci`        | `.github/actions/setup` (pnpm + Node + install, plus `astro sync` with `astro`) and `.github/dependabot.yml` |
 
 Always on: TypeScript, lefthook (format + lint on commit, `pnpm check` on
 push), the pnpm supply-chain settings, `.editorconfig`, `.nvmrc`.
