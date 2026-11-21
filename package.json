@@ -1,6 +1,6 @@
 {
   "name": "@tchryssos/js-config",
-  "version": "0.3.2",
+  "version": "0.3.3",
   "description": "Shared JS tooling config (TypeScript, ESLint + Prettier or oxlint + oxfmt, stylelint, lefthook) and a CLI that keeps the files that can't be extended in sync.",
   "private": true,
   "type": "module",

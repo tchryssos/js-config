@@ -15,7 +15,7 @@ that can't be extended.
 ## Install
 
 ```sh
-pnpm add -D github:tchryssos/js-config#v0.3.2
+pnpm add -D github:tchryssos/js-config#v0.3.3
 pnpm exec js-config init --toolchain eslint-prettier --features astro,stylelint,knip,ci
 pnpm install
 ```
@@ -37,13 +37,13 @@ later, edit that list and run `pnpm exec js-config sync`.
 Both use the same code style (80 columns, single quotes, trailing commas
 everywhere), so switching doesn't reformat a repo.
 
-| Feature     | Adds                                                     |
-| ----------- | -------------------------------------------------------- |
-| `astro`     | Astro ESLint + Prettier rules, `.astro/` ignore, esbuild |
-| `tailwind`  | Tailwind class sorting (Prettier)                        |
-| `stylelint` | stylelint config, pre-commit job, `lint` script          |
-| `knip`      | knip + `knip` script                                     |
-| `ci`        | `.github/actions/setup` (pnpm + Node + install)          |
+| Feature     | Adds                                                                            |
+| ----------- | ------------------------------------------------------------------------------- |
+| `astro`     | Astro ESLint + Prettier rules, `.astro/` ignore, esbuild                        |
+| `tailwind`  | Tailwind class sorting (Prettier)                                               |
+| `stylelint` | stylelint config, pre-commit job, `lint` script                                 |
+| `knip`      | knip + `knip` script                                                            |
+| `ci`        | `.github/actions/setup` (pnpm + Node + install, plus `astro sync` with `astro`) |
 
 Always on: TypeScript, lefthook (format + lint on commit, `pnpm check` on
 push), the pnpm supply-chain settings, `.editorconfig`, `.nvmrc`.

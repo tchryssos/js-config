@@ -57,6 +57,24 @@ describe('init + sync', () => {
     assert.ok(!changed.includes('.prettierrc.mjs'));
   });
 
+  it('generates Astro types in CI for Astro repos', () => {
+    const astroRepo = repo({ 'package.json': '{ "name": "t" }' });
+    init(astroRepo, {
+      toolchain: 'eslint-prettier',
+      features: ['astro', 'ci'],
+    });
+    const steps = parse(read(astroRepo, '.github/actions/setup/action.yml'))
+      .runs.steps;
+    assert.equal(steps.at(-1).run, 'pnpm exec astro sync');
+
+    const plainRepo = repo({ 'package.json': '{ "name": "t" }' });
+    init(plainRepo, { toolchain: 'ox', features: ['ci'] });
+    assert.doesNotMatch(
+      read(plainRepo, '.github/actions/setup/action.yml'),
+      /astro/,
+    );
+  });
+
   it('sets up an ox repo with the shared code style', () => {
     const dir = repo({ 'package.json': '{ "name": "t" }' });
     init(dir, { toolchain: 'ox', features: [] });
