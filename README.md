@@ -15,7 +15,7 @@ that can't be extended.
 ## Install
 
 ```sh
-pnpm add -D github:tchryssos/js-config#v0.3.1
+pnpm add -D github:tchryssos/js-config#v0.3.2
 pnpm exec js-config init --toolchain eslint-prettier --features astro,stylelint,knip,ci
 pnpm install
 ```
@@ -112,6 +112,8 @@ One plugin is the exception: `eslint-plugin-astro` only looks for
 `eslint-plugin-jsx-a11y` from the repo root, so `sync` also adds jsx-a11y to
 repos using ESLint with Astro. Without it the Astro a11y rules still run
 through `pnpm lint` (pnpm's shims set `NODE_PATH`) but not in editors.
+Nothing imports it, so with the `knip` feature `sync` also adds it to
+`ignoreDependencies` in `knip.json`.
 
 Every repo installs all the plugins whichever toolchain it uses, and pnpm
 auto-installs their `eslint`/`stylelint` peers. That costs some disk space in

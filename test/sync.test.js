@@ -37,6 +37,9 @@ describe('init + sync', () => {
     assert.equal(pkg.scripts.knip, 'knip');
     assert.ok(pkg.devDependencies.eslint);
     assert.ok(pkg.devDependencies['eslint-plugin-jsx-a11y']);
+    assert.deepEqual(readJson(dir, 'knip.json').ignoreDependencies, [
+      'eslint-plugin-jsx-a11y',
+    ]);
     assert.equal(pkg.devDependencies.oxlint, undefined);
   });
 
