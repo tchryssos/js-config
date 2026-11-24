@@ -15,10 +15,23 @@ that can't be extended.
 ## Install
 
 ```sh
-pnpm add -D github:tchryssos/js-config#v0.4.0
+pnpm add -D --allow-build=lefthook --config.minimumReleaseAge=4320 \
+  github:tchryssos/js-config#v0.4.0
 pnpm exec js-config init --toolchain eslint-prettier --features astro,stylelint,knip,ci
 pnpm install
 ```
+
+The two flags on the first command apply settings that `sync` only writes
+to `pnpm-workspace.yaml` later:
+
+- **`--allow-build=lefthook`:** without it, pnpm blocks lefthook's install
+  script, the install counts as failed, and `pnpm exec` won't run `init`.
+- **`--config.minimumReleaseAge=4320`:** without it, the lockfile can pick
+  up packages younger than the 3-day rule. The `pnpm install` after `init`
+  then rejects them.
+
+`init` also pins `packageManager` to this package's pnpm, since an older
+global pnpm can't read the workspace settings it writes.
 
 `init` records the choices in `package.json`:
 

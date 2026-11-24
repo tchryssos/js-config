@@ -87,6 +87,49 @@ describe('init + sync', () => {
     const pkg = readJson(dir, 'package.json');
     assert.equal(pkg.scripts.format, 'oxfmt');
     assert.equal(pkg.devDependencies['eslint-plugin-jsx-a11y'], undefined);
+    assert.equal(pkg.devDependencies.typescript, '^7.0.2');
+  });
+
+  it('keeps TypeScript 6 where Astro or typescript-eslint need it', () => {
+    for (const [toolchain, features] of /** @type {const} */ ([
+      ['ox', ['astro']],
+      ['eslint-prettier', []],
+    ])) {
+      const dir = repo({ 'package.json': '{ "name": "t" }' });
+      init(dir, { toolchain, features: [...features] });
+      const pkg = readJson(dir, 'package.json');
+      assert.match(pkg.devDependencies.typescript, /^~6/);
+    }
+  });
+
+  it('pins pnpm, without replacing another package manager', () => {
+    const fresh = repo({ 'package.json': '{ "name": "t" }' });
+    init(fresh, { toolchain: 'ox', features: [] });
+    assert.match(readJson(fresh, 'package.json').packageManager, /^pnpm@12\./);
+
+    const old = repo({ 'package.json': '{ "packageManager": "pnpm@9.0.0" }' });
+    init(old, { toolchain: 'ox', features: [] });
+    assert.match(readJson(old, 'package.json').packageManager, /^pnpm@12\./);
+
+    const yarn = repo({ 'package.json': '{ "packageManager": "yarn@4.0.0" }' });
+    init(yarn, { toolchain: 'ox', features: [] });
+    assert.equal(readJson(yarn, 'package.json').packageManager, 'yarn@4.0.0');
+  });
+
+  it("replaces lefthook's all-comments sample lefthook.yml", () => {
+    const dir = repo({
+      'package.json': '{ "name": "t" }',
+      'lefthook.yml': '# EXAMPLE USAGE:\n#\n# pre-push:\n#   jobs: []\n',
+    });
+    init(dir, { toolchain: 'ox', features: [] });
+    assert.doesNotMatch(read(dir, 'lefthook.yml'), /EXAMPLE USAGE/);
+
+    const own = repo({
+      'package.json': '{ "name": "t" }',
+      'lefthook.yml': '# mine\npre-commit:\n  jobs: []\n',
+    });
+    init(own, { toolchain: 'ox', features: [] });
+    assert.match(read(own, 'lefthook.yml'), /# mine/);
   });
 
   it('keeps what the repo added itself', () => {
